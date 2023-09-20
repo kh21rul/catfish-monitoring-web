@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MyEvent;
 use App\Models\Monitoring;
 use App\Http\Requests\StoreMonitoringRequest;
 use App\Http\Requests\UpdateMonitoringRequest;
@@ -101,8 +102,40 @@ class MonitoringController extends Controller
     }
 
     public function simpan () {
-        $newTemperature = request('temperature');
+        $temperature = request('temperature');
+        $turbidity = request('turbidity');
+        $ph = request('ph');
+        $jarak = request('jarak');
 
+        $messages = [];
+
+        if ($temperature < 25 || $temperature > 30) {
+            $messages[] = 'Suhu Air : ' . $temperature . ' °C';
+        }
+
+        if ($turbidity > 50) {
+            $messages[] = 'Kekeruhan Air : ' . $turbidity . ' NTU';
+        }
+
+        if ($ph < 6 || $ph > 9) {
+            $messages[] = 'pH Air : ' . $ph;
+        }
+
+        if ($jarak > 50) {
+            $messages[] = 'Pompa Masuk Aktif';
+        } elseif ($jarak < 30) {
+            $messages[] = 'Pompa Keluar Aktif';
+        } else {
+            $messages[] = 'Pompa Masuk & Keluar Aktif';
+        }
+
+        // Gabungkan pesan-pesan jika lebih dari satu kondisi terpenuhi.
+        $message = implode(', ', $messages);
+
+        if (!empty($messages)) {
+            event(new MyEvent($message));
+        }
+        
         Monitoring::where ('id', 1)->update ([
             'temperature' => request ('temperature'),
             'turbidity' => request ('turbidity'),
