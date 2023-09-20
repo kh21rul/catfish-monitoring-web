@@ -1,3 +1,3 @@
 ## About Laravel
 
-Website Untuk Monitoring Kualitas Air Udang Menggunakan IOT
+Website Untuk Monitoring Kualitas Air Budidaya Ikan Lele Menggunakan IOT
