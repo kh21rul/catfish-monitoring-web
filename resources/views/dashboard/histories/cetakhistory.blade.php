@@ -12,11 +12,8 @@
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    {{-- Link manifest PWA --}}
-    <link rel="manifest" href="manifest.json" />
-
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ asset('landpage\assets\img\favicons\favicon.png') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,59 +37,56 @@
 
   <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
-
-
-    {{-- Content Start --}}
-    <div class="content">
-    <div class="container-fluid pt-4 px-4 align-content-center">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Rekap Data Monitoring {{ request('filter') ?: $today }}</h6>
+        {{-- Content Start --}}
+        <div class="content">
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Rekap Data Monitoring {{ request('filter') ?: $today }}</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col">Pukul</th>
+                                    <th scope="col">Suhu Air</th>
+                                    <th scope="col">Keruh Air</th>
+                                    <th scope="col">Keruh Air</th>
+                                    <th scope="col">Jarak Air</th>
+                                    <th scope="col">Pompa In</th>
+                                    <th scope="col">Pompa Out</th>
+                                </tr>
+                            </thead>
+                            @php
+                                $no = 1;
+                            @endphp
+                            <tbody>
+                            @if ($controls->count() == 0)
+                            <tr>
+                                <td colspan="10" class="text-center">Belum ada data</td>
+                            </tr>
+                            @endif
+                                @foreach ($controls as $control) 
+                                <tr>
+                                    <td>{{ $control->created_at->format('H:i') }}</td>
+                                    <td>{{ $control->temperature }} °C</td>
+                                    <td>{{ $control->turbidity }} NTU</td>
+                                    <td>{{ $control->ph }}</td>
+                                    <td>{{ $control->jarak }} CM</td>
+                                    <td>{{ $control->pompa_masuk }}</td>
+                                    <td>{{ $control->pompa_keluar }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0 text-center">
-                    <thead>
-                        <tr class="text-dark">
-                            <th scope="col">Pukul</th>
-                            <th scope="col">Suhu Air</th>
-                            <th scope="col">Keruh Air</th>
-                            <th scope="col">Keruh Air</th>
-                            <th scope="col">Jarak Air</th>
-                            <th scope="col">Pompa In</th>
-                            <th scope="col">Pompa Out</th>
-                        </tr>
-                    </thead>
-                    @php
-                        $no = 1;
-                    @endphp
-                    <tbody>
-                    @if ($controls->count() == 0)
-                    <tr>
-                        <td colspan="10" class="text-center">Belum ada data</td>
-                    </tr>
-                    @endif
-                        @foreach ($controls as $control) 
-                        <tr>
-                            <td>{{ $control->created_at->format('H:i') }}</td>
-                            <td>{{ $control->temperature }} °C</td>
-                            <td>{{ $control->turbidity }} NTU</td>
-                            <td>{{ $control->ph }}</td>
-                            <td>{{ $control->jarak }} CM</td>
-                            <td>{{ $control->pompa_masuk }}</td>
-                            <td>{{ $control->pompa_keluar }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+
         </div>
-    </div>
+        {{-- Content End --}}
 
     </div>
-    {{-- Content End --}}
-
-    </div>
-    
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
