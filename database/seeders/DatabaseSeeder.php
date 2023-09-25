@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Monitoring::create([
+            'notification' => false, 
             'temperature' => 0,
             'turbidity' => 0,
             'ph' => 0,

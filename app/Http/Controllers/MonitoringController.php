@@ -102,6 +102,7 @@ class MonitoringController extends Controller
     }
 
     public function simpan () {
+        $notification = Monitoring::select('notification')->first()->notification;
         $temperature = request('temperature');
         $turbidity = request('turbidity');
         $ph = request('ph');
@@ -122,9 +123,9 @@ class MonitoringController extends Controller
         }
 
         if ($jarak > 50) {
-            $messages[] = 'Pompa Masuk Aktif';
+            $messages[] = 'Jarak Air: ' . $jarak . ', Pompa Masuk Aktif';
         } elseif ($jarak < 30) {
-            $messages[] = 'Pompa Keluar Aktif';
+            $messages[] = 'Jarak Air: ' . $jarak . ', Pompa Keluar Aktif';
         } else {
             $messages[] = 'Pompa Masuk & Keluar Aktif';
         }
@@ -132,11 +133,20 @@ class MonitoringController extends Controller
         // Gabungkan pesan-pesan jika lebih dari satu kondisi terpenuhi.
         $message = implode(', ', $messages);
 
-        if (!empty($messages)) {
-            event(new MyEvent($message));
+        // logika agar notifikasi tidak terkirim 1 menit sekali
+        if ($temperature < 25 || $temperature > 30 || $turbidity > 400 || $ph < 6 || $ph > 9 || $jarak > 50 || $jarak < 30) {
+            if ($notification == false) {
+                if (!empty($messages)) {
+                    event(new MyEvent($message));
+                }
+                $notification = true;
+            } 
+        } else {
+            $notification = false;
         }
         
         Monitoring::where ('id', 1)->update ([
+            'notification' => $notification,
             'temperature' => request ('temperature'),
             'turbidity' => request ('turbidity'),
             'ph' => request ('ph'),
