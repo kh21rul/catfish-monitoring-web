@@ -71,7 +71,7 @@
                         @csrf
                         <div class="form-floating mb-3">
                             <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="username" placeholder="Enter your username" autofocus required value="{{ old('username') }}">
-                            <label for="username">Email address</label>
+                            <label for="username">Username</label>
                             @error('username')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -80,7 +80,7 @@
                         </div>
                         <div class="form-floating mb-4">
                             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Enter your password" aria-describedby="password" required>
-                            <label for="floatingPassword">Password</label>
+                            <label for="password">Password</label>
                             @error('password')
                             <div class="invalid-feedback">
                                 {{ $message }}
