@@ -99,11 +99,5 @@
     {{-- font awasome --}}
     <script src="https://kit.fontawesome.com/dc5834cafa.js" crossorigin="anonymous"></script>
 
-    {{-- serviceworker PWA --}}
-    {{-- <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{{ asset('serviceworker.js') }}");
-      }
-    </script> --}}
   </body>
 </html>
