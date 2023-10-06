@@ -108,13 +108,19 @@ class MonitoringController extends Controller
         $ph = request('ph');
         $jarak = request('jarak');
 
+        $telegramToken = '6378817006:AAE2VZHPR0hCQjOJ5Ikn8el52Eo5q2G7KVw';
+        $chatId = '1499489077'; // ID obrolan pribadi atau grup di Telegram
+
+        // Inisialisasi klien Telegram Bot
+        $telegram = new \Telegram\Bot\Api($telegramToken);
+
         $messages = [];
 
         if ($temperature < 25 || $temperature > 30) {
             $messages[] = 'Suhu Air : ' . $temperature . ' °C';
         }
 
-        if ($turbidity > 50) {
+        if ($turbidity > 400) {
             $messages[] = 'Kekeruhan Air : ' . $turbidity . ' NTU';
         }
 
@@ -137,7 +143,10 @@ class MonitoringController extends Controller
         if ($temperature < 25 || $temperature > 30 || $turbidity > 400 || $ph < 6 || $ph > 9 || $jarak > 50 || $jarak < 30) {
             if ($notification == false) {
                 if (!empty($messages)) {
-                    event(new MyEvent($message));
+                    $telegram->sendMessage([
+                        'chat_id' => $chatId,
+                        'text' => $message,
+                    ]);
                 }
                 $notification = true;
             } 
