@@ -108,8 +108,8 @@ class MonitoringController extends Controller
         $ph = request('ph');
         $jarak = request('jarak');
 
-        $telegramToken = '6378817006:AAE2VZHPR0hCQjOJ5Ikn8el52Eo5q2G7KVw';
-        $chatId = '1499489077'; // ID obrolan pribadi atau grup di Telegram
+        $telegramToken = '6367666407:AAFuvw4qT68xi0P55qsiBO_im9Hs-0YX9tY';
+        $chatId = '5183410035'; // ID obrolan pribadi atau grup di Telegram
 
         // Inisialisasi klien Telegram Bot
         $telegram = new \Telegram\Bot\Api($telegramToken);
