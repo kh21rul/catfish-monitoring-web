@@ -7,7 +7,7 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
     
-    <title>lele Monitoring | {{ $title }}</title>
+    <title>lelemon | {{ $title }}</title>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
 

@@ -101,7 +101,8 @@ class MonitoringController extends Controller
         return view('bacapompakeluar', ['monitoring' => $monitoring]);
     }
 
-    public function simpan () {
+    public function simpan()
+    {
         $notification = Monitoring::select('notification')->first()->notification;
         $temperature = request('temperature');
         $turbidity = request('turbidity');
@@ -128,9 +129,9 @@ class MonitoringController extends Controller
             $messages[] = 'pH Air : ' . $ph;
         }
 
-        if ($jarak > 50) {
+        if ($jarak > 30) {
             $messages[] = 'Jarak Air: ' . $jarak . ', Pompa Masuk Aktif';
-        } elseif ($jarak < 30) {
+        } elseif ($jarak < 10) {
             $messages[] = 'Jarak Air: ' . $jarak . ', Pompa Keluar Aktif';
         } else {
             $messages[] = 'Pompa Masuk & Keluar Aktif';
@@ -140,7 +141,7 @@ class MonitoringController extends Controller
         $message = implode(', ', $messages);
 
         // logika agar notifikasi tidak terkirim 1 menit sekali
-        if ($temperature < 25 || $temperature > 30 || $turbidity > 400 || $ph < 6 || $ph > 9 || $jarak > 50 || $jarak < 30) {
+        if ($temperature < 25 || $temperature > 30 || $turbidity > 400 || $ph < 6 || $ph > 9 || $jarak > 30 || $jarak < 10) {
             if ($notification == false) {
                 if (!empty($messages)) {
                     $telegram->sendMessage([
@@ -149,19 +150,19 @@ class MonitoringController extends Controller
                     ]);
                 }
                 $notification = true;
-            } 
+            }
         } else {
             $notification = false;
         }
-        
-        Monitoring::where ('id', 1)->update ([
+
+        Monitoring::where('id', 1)->update([
             'notification' => $notification,
-            'temperature' => request ('temperature'),
-            'turbidity' => request ('turbidity'),
-            'ph' => request ('ph'),
-            'jarak' => request ('jarak'),
-            'pompa_masuk' => request ('pompa_masuk'),
-            'pompa_keluar' => request ('pompa_keluar'),
-        ]);  
+            'temperature' => request('temperature'),
+            'turbidity' => request('turbidity'),
+            'ph' => request('ph'),
+            'jarak' => request('jarak'),
+            'pompa_masuk' => request('pompa_masuk'),
+            'pompa_keluar' => request('pompa_keluar'),
+        ]);
     }
 }

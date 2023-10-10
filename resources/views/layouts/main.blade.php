@@ -11,7 +11,7 @@
     <!--    Document Title-->
     <!-- ===============================================-->
 
-    <title>Vanamei Monitoring | {{ $title }}</title>
+    <title>Lelemon | {{ $title }}</title>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
 
